@@ -85,7 +85,6 @@ rm -r "/tmp/gh-run-download-$GITHUB_RUN_ID"
 end_group
 
 start_group "Download code coverage results from target branch"
-
 # Fetch artifact from provided run ID for comparison
 if [ -n "$LAST_SUCCESSFUL_RUN_ID" ]; then
   echo "Using provided target-run-id: $LAST_SUCCESSFUL_RUN_ID"
@@ -100,6 +99,7 @@ if [ -n "$MAIN_COVERAGE_ARTIFACT_NAME" ]; then
   gh run download "$GITHUB_RUN_ID" --name="$MAIN_COVERAGE_ARTIFACT_NAME" --dir="/tmp/gh-run-download-$GITHUB_RUN_ID"
   mv "/tmp/gh-run-download-$GITHUB_RUN_ID/$COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
   rm -r "/tmp/gh-run-download-$GITHUB_RUN_ID"
+fi
 end_group
 
 start_group "Compare code coverage results"
