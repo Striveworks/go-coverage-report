@@ -96,8 +96,8 @@ fi
 # Use provided artifact name from current run for comparison
 if [ -n "$MAIN_COVERAGE_ARTIFACT_NAME" ]; then
   echo "Using main coverage artifact name from $GITHUB_RUN_ID"
-  ls /tmp/gh-run-download-9504432699
   gh run download "$GITHUB_RUN_ID" --name="$MAIN_COVERAGE_ARTIFACT_NAME" --dir="/tmp/gh-run-download-$GITHUB_RUN_ID"
+  ls /tmp/gh-run-download-9504432699
   mv "/tmp/gh-run-download-$GITHUB_RUN_ID/$COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
   rm -r "/tmp/gh-run-download-$GITHUB_RUN_ID"
 fi
