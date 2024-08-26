@@ -57,7 +57,7 @@ runs:
     - name: Download go-coverage-report
       shell: bash
       id: download
-      run:  go install -v "github.com/Striveworks/go-coverage-report@${{ inputs.version }}"
+      run:  go install -v "github.com/Striveworks/go-coverage-report/cmd/go-coverage-report@${{ inputs.version }}"
 
     - name: Determine changed files
       id: changed-files
