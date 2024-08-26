@@ -58,7 +58,7 @@ runs:
       shell: bash
       id: download
       run:  |
-        GOBIN=$HOME/go/bingo install -v "github.com/Striveworks/go-coverage-report/cmd/go-coverage-report@${{ inputs.version }}"
+        GOBIN=$HOME/go/bin go install -v "github.com/Striveworks/go-coverage-report/cmd/go-coverage-report@${{ inputs.version }}"
         echo "$HOME/go/bin" >> $GITHUB_PATH
 
     - name: Determine changed files
