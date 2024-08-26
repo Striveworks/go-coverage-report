@@ -79,10 +79,27 @@ end_group(){
 }
 
 start_group "Download merged coverage results"
-rm -rf "/tmp/gh-run-download-$GITHUB_RUN_ID"
-gh run download "$GITHUB_RUN_ID" --name="$COVERAGE_ARTIFACT_NAME" --dir="/tmp/gh-run-download-$GITHUB_RUN_ID"
+rm -rf /tmp/gh-run-download-10565757312
+
+echo "Starting download..."
+if gh run download "$GITHUB_RUN_ID" --name=merged-coverage --dir="/tmp/gh-run-download-$GITHUB_RUN_ID"; then
+    echo "Download successful."
+else
+    echo "Download failed."
+    exit 1
+fi
+
+echo "Waiting for files to be ready..."
 sleep 30
-ls "/tmp/gh-run-download-$GITHUB_RUN_ID"
+
+echo "Checking contents of the download directory..."
+if ls /tmp/gh-run-download-$GITHUB_RUN_ID; then
+    echo "Directory contents listed successfully."
+else
+    echo "Directory does not exist or is empty."
+    exit 1
+fi
+
 mv -f "/tmp/gh-run-download-$GITHUB_RUN_ID/$COVERAGE_FILE_NAME" $NEW_COVERAGE_PATH
 mv -f "/tmp/gh-run-download-$GITHUB_RUN_ID/$MAIN_COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
 rm -r "/tmp/gh-run-download-$GITHUB_RUN_ID"
