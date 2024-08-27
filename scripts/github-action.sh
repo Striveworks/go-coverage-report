@@ -79,7 +79,7 @@ end_group(){
 }
 
 start_group "Download merged coverage results"
-DOWNLOAD_DIR="/tmp/gh-run-download-$GITHUB_RUN_ID-$(date +%s)"
+DOWNLOAD_DIR="./tmp/gh-run-download-$GITHUB_RUN_ID-$(date +%s)"
 rm -rf $DOWNLOAD_DIR
 
 echo "Starting download..."
@@ -101,9 +101,9 @@ else
     exit 1
 fi
 
-mv -f "/tmp/gh-run-download-$GITHUB_RUN_ID/$COVERAGE_FILE_NAME" $NEW_COVERAGE_PATH
-mv -f "/tmp/gh-run-download-$GITHUB_RUN_ID/$MAIN_COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
-rm -r "/tmp/gh-run-download-$GITHUB_RUN_ID"
+mv -f "./tmp/gh-run-download-$GITHUB_RUN_ID/$COVERAGE_FILE_NAME" $NEW_COVERAGE_PATH
+mv -f "./tmp/gh-run-download-$GITHUB_RUN_ID/$MAIN_COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
+rm -r "./tmp/gh-run-download-$GITHUB_RUN_ID"
 end_group
 
 start_group "Compare code coverage results"
