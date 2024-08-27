@@ -79,10 +79,11 @@ end_group(){
 }
 
 start_group "Download merged coverage results"
-rm -rf /tmp/gh-run-download-10565757312
+DOWNLOAD_DIR="/tmp/gh-run-download-$GITHUB_RUN_ID-$(date +%s)"
+rm -rf $DOWNLOAD_DIR
 
 echo "Starting download..."
-if gh run download "$GITHUB_RUN_ID" --name=merged-coverage --dir="/tmp/gh-run-download-$GITHUB_RUN_ID"; then
+if gh run download "$GITHUB_RUN_ID" --name=merged-coverage --dir="$DOWNLOAD_DIR"; then
     echo "Download successful."
 else
     echo "Download failed."
@@ -93,7 +94,7 @@ echo "Waiting for files to be ready..."
 sleep 30
 
 echo "Checking contents of the download directory..."
-if ls /tmp/gh-run-download-$GITHUB_RUN_ID; then
+if ls $DOWNLOAD_DIR; then
     echo "Directory contents listed successfully."
 else
     echo "Directory does not exist or is empty."
