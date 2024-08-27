@@ -101,9 +101,9 @@ else
     exit 1
 fi
 
-mv -f "./tmp/gh-run-download-$GITHUB_RUN_ID/$COVERAGE_FILE_NAME" $NEW_COVERAGE_PATH
-mv -f "./tmp/gh-run-download-$GITHUB_RUN_ID/$MAIN_COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
-rm -r "./tmp/gh-run-download-$GITHUB_RUN_ID"
+mv -f "$DOWNLOAD_DIR/$COVERAGE_FILE_NAME" $NEW_COVERAGE_PATH
+mv -f "$DOWNLOAD_DIR/$MAIN_COVERAGE_FILE_NAME" $OLD_COVERAGE_PATH
+rm -r "$DOWNLOAD_DIR"
 end_group
 
 start_group "Compare code coverage results"
