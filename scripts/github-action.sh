@@ -31,6 +31,7 @@ You can use the following environment variables to configure the script:
 - CHANGED_FILES_PATH: The path to the file containing the list of changed files (default: .github/outputs/all_changed_files.json)
 - ROOT_PACKAGE: The import path of the tested repository to add as a prefix to all paths of the changed files (optional)
 - TRIM_PACKAGE: Trim a prefix in the \"Impacted Packages\" column of the markdown report (optional)
+- IGNORE_FILES: Comma-delimited list of file patterns to ignore when calculating overall test coverage
 "
 
 if [[ $# != 3 ]]; then
@@ -110,6 +111,7 @@ start_group "Compare code coverage results"
 go-coverage-report \
     -root="$ROOT_PACKAGE" \
     -trim="$TRIM_PACKAGE" \
+    -ignore_files="$IGNORE_FILES" \
     "$OLD_COVERAGE_PATH" \
     "$NEW_COVERAGE_PATH" \
     "$CHANGED_FILES_PATH" \

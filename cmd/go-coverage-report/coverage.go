@@ -7,23 +7,32 @@ import (
 )
 
 type Coverage struct {
-	Files       map[string]*Profile
-	TotalStmt   int64
-	CoveredStmt int64
-	MissedStmt  int64
+	Files             map[string]*Profile
+	TotalStmt         int64
+	CoveredStmt       int64
+	MissedStmt        int64
+	OverallPercentage float64
 }
 
-func ParseCoverage(filename string) (*Coverage, error) {
+func ParseCoverage(filename string, ignoreFiles ...string) (*Coverage, error) {
 	pp, err := ParseProfiles(filename)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse profiles")
 	}
 
-	return New(pp), nil
+	overall, err := getOverallCoveragePercent(pp, ignoreFiles...)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to calculate total coverage percentage")
+	}
+
+	return New(pp, overall), nil
 }
 
-func New(profiles []*Profile) *Coverage {
-	cov := &Coverage{Files: map[string]*Profile{}}
+func New(profiles []*Profile, perc float64) *Coverage {
+	cov := &Coverage{
+		Files:             map[string]*Profile{},
+		OverallPercentage: perc,
+	}
 	for _, p := range profiles {
 		cov.add(p)
 	}
@@ -70,7 +79,7 @@ func (c *Coverage) ByPackage() map[string]*Coverage {
 			profiles = append(profiles, c.Files[file])
 		}
 
-		pkgCovs[pkg] = New(profiles)
+		pkgCovs[pkg] = New(profiles, 0)
 	}
 
 	return pkgCovs

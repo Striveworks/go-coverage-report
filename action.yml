@@ -49,6 +49,10 @@ inputs:
   trim:
     description: Trim a prefix in the "Impacted Packages" column of the markdown report.
     required: false
+  
+  ignore-files:
+    description: File patterns to ignore from reported overall coverage.
+    required: false
 
 runs:
   using: "composite"
@@ -86,3 +90,4 @@ runs:
         COVERAGE_FILE_NAME: ${{ inputs.coverage-file-name }}
         ROOT_PACKAGE: ${{ inputs.root-package }}
         TRIM_PACKAGE: ${{ inputs.trim }}
+        IGNORE_FILES: ${{ inputs.ignore-files }}

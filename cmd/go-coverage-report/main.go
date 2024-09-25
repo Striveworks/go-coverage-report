@@ -31,9 +31,10 @@ OPTIONS:
 `, filepath.Base(os.Args[0])))
 
 type options struct {
-	root   string
-	trim   string
-	format string
+	root        string
+	trim        string
+	format      string
+	ignoreFiles []string
 }
 
 func main() {
@@ -47,6 +48,7 @@ func main() {
 	flag.String("root", "", "The import path of the tested repository to add as prefix to all paths of the changed files")
 	flag.String("trim", "", "trim a prefix in the \"Impacted Packages\" column of the markdown report")
 	flag.String("format", "markdown", "output format (currently only 'markdown' is supported)")
+	flag.String("ignore_files", "", "ignore comma-delimited list of file patterns from the overall coverage")
 
 	err := run(programArgs())
 	if err != nil {
@@ -67,21 +69,22 @@ func programArgs() (oldCov, newCov, changedFile string, opts options) {
 	}
 
 	opts = options{
-		root:   flag.Lookup("root").Value.String(),
-		trim:   flag.Lookup("trim").Value.String(),
-		format: flag.Lookup("format").Value.String(),
+		root:        flag.Lookup("root").Value.String(),
+		trim:        flag.Lookup("trim").Value.String(),
+		format:      flag.Lookup("format").Value.String(),
+		ignoreFiles: strings.Split(flag.Lookup("ignore_files").Value.String(), ","),
 	}
 
 	return args[0], args[1], args[2], opts
 }
 
 func run(oldCovPath, newCovPath, changedFilesPath string, opts options) error {
-	oldCov, err := ParseCoverage(oldCovPath)
+	oldCov, err := ParseCoverage(oldCovPath, opts.ignoreFiles...)
 	if err != nil {
 		return fmt.Errorf("failed to parse old coverage: %w", err)
 	}
 
-	newCov, err := ParseCoverage(newCovPath)
+	newCov, err := ParseCoverage(newCovPath, opts.ignoreFiles...)
 	if err != nil {
 		return fmt.Errorf("failed to parse new coverage: %w", err)
 	}
@@ -96,7 +99,7 @@ func run(oldCovPath, newCovPath, changedFilesPath string, opts options) error {
 		return nil
 	}
 
-	report := NewReport(oldCov, newCov, changedFiles)
+	report := NewReport(oldCov, newCov, changedFiles) //add ignore here
 	if opts.trim != "" {
 		report.TrimPrefix(opts.trim)
 	}

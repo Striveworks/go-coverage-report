@@ -134,6 +134,7 @@ func ParseProfilesFromReader(rd io.Reader) ([]*Profile, error) {
 		profiles = append(profiles, profile)
 	}
 	sort.Sort(byFileName(profiles))
+
 	return profiles, nil
 }
 
