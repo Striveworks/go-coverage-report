@@ -17,6 +17,7 @@ type Report struct {
 
 func NewReport(oldCov, newCov *Coverage, changedFiles []string) *Report {
 	sort.Strings(changedFiles)
+
 	return &Report{
 		Old:             oldCov,
 		New:             newCov,
@@ -71,13 +72,31 @@ func (r *Report) Title() string {
 
 	switch {
 	case numIncrease == 0 && numDecrease == 0:
-		return fmt.Sprintln("### Merging this branch will **not change** overall coverage")
+		return fmt.Sprintf(
+			"### Merging this branch will **not change** overall coverage\n#### Overall Project Coverage: %.2f%% :arrow_right: %.2f%%",
+			r.Old.OverallPercentage,
+			r.New.OverallPercentage,
+		)
 	case numIncrease > 0 && numDecrease == 0:
-		return fmt.Sprintln("### Merging this branch will **increase** overall coverage")
+		return fmt.Sprintf(
+			"### Merging this branch will **increase** overall coverage\n#### Overall Project Coverage: %.2f%% :arrow_right: %.2f%%",
+			r.Old.OverallPercentage,
+			r.New.OverallPercentage,
+		)
 	case numIncrease == 0 && numDecrease > 0:
-		return fmt.Sprintln("### Merging this branch will **decrease** overall coverage")
+		return fmt.Sprintf(
+			"### Merging this branch will **decrease** overall coverage\n#### Overall Project Coverage: %.2f%% :arrow_right: %.2f%%",
+			r.Old.OverallPercentage,
+			r.New.OverallPercentage,
+		)
 	default:
-		return fmt.Sprintf("### Merging this branch changes the coverage (%d decrease, %d increase)\n", numDecrease, numIncrease)
+		return fmt.Sprintf(
+			"### Merging this branch changes the coverage (%d decrease, %d increase)\n#### Overall Project Coverage: %.2f%% :arrow_right: %.2f%%",
+			numDecrease,
+			numIncrease,
+			r.Old.OverallPercentage,
+			r.New.OverallPercentage,
+		)
 	}
 }
 
