@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"path/filepath"
 )
 
@@ -12,9 +11,6 @@ func getOverallCoveragePercent(profiles []*Profile, ignorePatterns ...string) (f
 		coveredStatements int
 	)
 
-	if len(ignorePatterns) > 0 {
-		fmt.Printf("ignoring files from overall coverage: %s\n", ignorePatterns)
-	}
 	for _, profile := range profiles {
 		if ignoreFile(profile.FileName, ignorePatterns) {
 			continue
@@ -33,9 +29,6 @@ func getOverallCoveragePercent(profiles []*Profile, ignorePatterns ...string) (f
 
 	coveragePercentage := float64(coveredStatements) / float64(totalStatements) * 100
 
-	fmt.Printf("Total Statements: %d\n", totalStatements)
-	fmt.Printf("Covered Statements: %d\n", coveredStatements)
-	fmt.Printf("Coverage Percentage: %.2f%%\n", coveragePercentage)
 	return coveragePercentage, nil
 }
 
