@@ -34,8 +34,6 @@ func getOverallCoveragePercent(profiles []*Profile, ignorePatterns ...string) (f
 
 // ignoreFile checks if a file name matches any of the user-specified ignore patterns
 func ignoreFile(fileName string, ignorePatterns []string) bool {
-	if len(ignorePatterns) > 0 {
-	}
 	for _, pattern := range ignorePatterns {
 		match, err := filepath.Match(pattern, filepath.Base(fileName))
 		if err != nil {

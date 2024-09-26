@@ -99,7 +99,7 @@ func run(oldCovPath, newCovPath, changedFilesPath string, opts options) error {
 		return nil
 	}
 
-	report := NewReport(oldCov, newCov, changedFiles) //add ignore here
+	report := NewReport(oldCov, newCov, changedFiles)
 	if opts.trim != "" {
 		report.TrimPrefix(opts.trim)
 	}

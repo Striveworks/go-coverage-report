@@ -51,7 +51,9 @@ inputs:
     required: false
   
   ignore-files:
-    description: File patterns to ignore from reported overall coverage.
+    description: |
+      File patterns to ignore from reported overall coverage.
+      Uses syntax as defined by [filepath.Match](https://pkg.go.dev/path/filepath#Match)
     required: false
 
 runs:

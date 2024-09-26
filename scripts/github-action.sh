@@ -111,7 +111,7 @@ start_group "Compare code coverage results"
 go-coverage-report \
     -root="$ROOT_PACKAGE" \
     -trim="$TRIM_PACKAGE" \
-    -ignore-files="$IGNORE_FILES" \
+    -ignore-files="${IGNORE_FILES}" \
     "$OLD_COVERAGE_PATH" \
     "$NEW_COVERAGE_PATH" \
     "$CHANGED_FILES_PATH" \
